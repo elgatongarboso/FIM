@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Personalizado</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        #mensagem {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #botao {
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .imagem-flutuante {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            bottom: -50px;
+            transition: transform 0.5s;
+        }
+        @keyframes subir {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) translateX(calc(50vw * var(--random-x))) rotate(720deg); }
+        }
+        @keyframes cair {
+            0% { transform: translateY(-100vh) translateX(calc(50vw * var(--random-x))) rotate(0deg); }
+            100% { transform: translateY(100vh) translateX(calc(100vw * var(--random-x))) rotate(-720deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="mensagem">Oizinho, fica aqui um pouquinho pra mim te dizer uma coisa</div>
+    <button id="botao">Minha foto</button>
+    <audio id="musica" loop>
+        <source src="https://files.catbox.moe/o4apdi.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+    <script>
+        const mensagens = [
+            "Feliz aniversario pra voce meu docinho :3",
+            "Ouve a musica que coloquei de fundo * -*",
+            "Você me acha bonito?",
+            "eu te acho maravilhosa",
+            "Te amo muitÃAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOOOOOOOO",
+			"depois vai la no flocos dar um beijo nele",
+            "ta ouvindo a musica?",
+            "sino ama flocos",
+            "o que voce sente quando toca na minha pata? :pepopensando:",
+            "se nao tiver ouvindo a musica aumenta o volume e bota seu dedinho na tela :3",
+			"quantos beijos eu mereço?",
+            "voce fala a minha lingua?",
+            "o que eu to cantando entao?",
+            "aposto que vai usar tradutor",
+            "depois diz que sabe o que eu falo ;-;",
+			"aposto que nem entende o que eu falo '-'",
+            "achou meus joguinhos dificil?",
+            "no celular é mais dificil mesmo :3",
+            "no celular eu nao consegui testar a tempo antes de terminar :3",
+            "agora chega de mensagem '-'",
+            "as proximas mensagens vao ser repetidas",
+            "OUVVVVVVVIUUUUUUU?????",
+            "ORELHUDA '-'"
+        ];
+
+        const cores = [
+            "#FF0000", "#FF7F00", "#FFFF00", "#00FF00", "#0000FF", "#8B00FF"
+        ];
+
+        const mensagemElement = document.getElementById('mensagem');
+        let mensagemIndex = 0;
+        let corIndex = 0;
+
+        function mudarMensagemECor() {
+            mensagemElement.textContent = mensagens[mensagemIndex];
+            mensagemElement.style.color = cores[corIndex];
+            
+            mensagemIndex = (mensagemIndex + 1) % mensagens.length;
+            corIndex = (corIndex + 1) % cores.length;
+        }
+
+        setInterval(mudarMensagemECor, 8000);
+
+        const imagensSubindo = [
+            "https://i.ibb.co/y0n6Rjv/Screenshot-7-1.png",
+            "https://i.ibb.co/ZK7QpdW/602ee076322443d6e350393fce7fb819.jpg",
+            "https://i.ibb.co/7r57Bjk/168cfafd03462295067365ed1e4f5901.jpg",
+            "https://i.ibb.co/DKK3F0m/0975c8b0fb843baadbaf0c6dfa5d6854.jpg",
+            "https://i.ibb.co/jV2V1Q4/48a95b1667f9b805b4020e1546eec8e0.jpg"
+        ];
+
+        const imagensCaindo = [
+            "https://i.ibb.co/94WrfJx/4368519eafbafac8a5a27bbbcde009e9.jpg",
+            "https://i.ibb.co/KNgNsrL/3fe57b4a52abdbc5cfc3e7c571438c2a.jpg",
+            "https://i.ibb.co/hWT11sJ/c932c5b831a067a33030af2c0c7dea82.jpg",
+            "https://i.ibb.co/tBRrsBy/5911bf3118417fc66fb7d584ed7bd805.jpg",
+            "https://i.ibb.co/tL3YVsH/8b6d53ffb8b169b0842c753a8ba36673.jpg"
+        ];
+
+        const somURL = "https://files.catbox.moe/im9tt1.wav";
+
+        function criarImagemFlutuante() {
+            const imagem = document.createElement('img');
+            imagem.src = imagensSubindo[Math.floor(Math.random() * imagensSubindo.length)];
+            imagem.classList.add('imagem-flutuante');
+            imagem.style.left = `${Math.random() * 100}vw`;
+            imagem.style.setProperty('--random-x', Math.random() - 0.5);
+            document.body.appendChild(imagem);
+
+            imagem.style.animation = `subir 5s linear`;
+
+            imagem.addEventListener('animationend', () => {
+                // Reproduz o som
+                const som = new Audio(somURL);
+                som.play();
+
+                // Muda a imagem
+                imagem.src = imagensCaindo[Math.floor(Math.random() * imagensCaindo.length)];
+
+                // Inicia a animação de queda
+                imagem.style.animation = `cair 5s linear`;
+            });
+
+            imagem.addEventListener('animationend', (event) => {
+                if (event.animationName === 'cair') {
+                    imagem.remove();
+                }
+            });
+        }
+
+        function criarImagensAleatorias() {
+            const intervalo = Math.random() * 200 + 200; // Entre 500ms e 1500ms
+            criarImagemFlutuante();
+            setTimeout(criarImagensAleatorias, intervalo);
+        }
+
+        criarImagensAleatorias();
+
+        document.getElementById('botao').addEventListener('click', function() {
+            window.open('https://files.catbox.moe/127kr9.jpg', '_blank');
+        });
+
+        document.addEventListener('click', function() {
+            document.getElementById('musica').play();
+        });
+    </script>
+</body>
+</html>
